@@ -28,7 +28,9 @@ public class NBody {
     }
 
     public static void main(String[] args) {
-
+        double T = 157788000.0;
+        double dt = 25000.0;
+        // Initialize background
         String filename = "planets.txt";
         String universe_pic = "images/starfield.jpg";
         double r_universe = readRadius(filename);
@@ -37,11 +39,32 @@ public class NBody {
         StdDraw.setScale(-2*r_universe, 2*r_universe); //Sets up the range
         StdDraw.clear(); // clear window
         StdDraw.picture(-r_universe, r_universe, universe_pic);
-        for (int i = 0; i < body_array.length; i++){
-            body_array[i].draw();
+
+        // Create animation
+        int t = 0;
+        while (t <= T){
+            // Draw background
+            StdDraw.picture(-r_universe, r_universe, universe_pic);
+
+            double[] xForces;
+            double[] yForces;
+            xForces = new double[body_array.length];
+            yForces = new double[body_array.length];
+            for (int i = 0; i < body_array.length; i++){
+                xForces[i] = body_array[i].calcNetForceExertedByX(body_array);
+                yForces[i] = body_array[i].calcNetForceExertedByY(body_array);
+
+            }
+            for (int i = 0; i < body_array.length; i++){
+                body_array[i].update(dt, xForces[i], yForces[i]);
+            }
+            for (int i = 0; i < body_array.length; i++){
+                body_array[i].draw();
+            }
+            StdDraw.show();
+            StdDraw.pause(10);
+            t += dt;
         }
-        StdDraw.show();
-        StdDraw.pause(2000);
     }
 
 }
