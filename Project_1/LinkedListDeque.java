@@ -8,20 +8,25 @@ public class LinkedListDeque<type> implements Deque<type>{
         node next;
 
         public node(node p, type i, node n){
-            this.prev = p;
-            this.item = i;
-            this.next = n;
+            prev = p;
+            item = i;
+            next = n;
         }
     }
+
     public LinkedListDeque(){
         size = 0;
-        sentinel = new node(sentinel, null, sentinel); // circular sentinel
+        sentinel = new node(null, null, null); // circular sentinel
+        sentinel.next = sentinel;
+        sentinel.prev = sentinel;
     }
 
     public LinkedListDeque(LinkedListDeque other){
         // deep copy
         size = 0;
-        sentinel = new node(sentinel, null, sentinel);
+        sentinel = new node(null, null, null); // circular sentinel
+        sentinel.next = sentinel;
+        sentinel.prev = sentinel;
 
         for (int i = 0; i < other.size(); i++){
             addLast((type) other.get(i));
@@ -30,35 +35,35 @@ public class LinkedListDeque<type> implements Deque<type>{
 
     public static void main(String[] args){
         LinkedListDeque<Integer> A = new LinkedListDeque<Integer>();
-        A.addFirst(10);
-        A.addFirst(9);
-        A.addLast(11);
+        A.addFirst(3);
+        A.addFirst(2);
+        A.addFirst(1);
+        A.addLast(4);
+        A.removeLast();
         A.printDeque();
     }
 
     public void addFirst(type x){
-        if (isEmpty()){
-            size += 1;
+        if (this.isEmpty()){
             sentinel.next = new node(sentinel, x, sentinel);
+            sentinel.prev = sentinel.next; // must change both next and prev of sentinel
+            size += 1;
         }
         else{
-            size += 1;
             sentinel.next = new node(sentinel, x, sentinel.next);
             sentinel.next.next.prev = sentinel.next;
+
+            size += 1;
         }
     }
 
     public void addLast(type x){
         if (isEmpty()) {
-            size += 1;
-            addFirst(x);
+            addFirst(x); // addFirst changes size, no need to add again
         }
         else{
-            node temp = sentinel; // change temp does NOT change sentinel
-            while (temp.next != sentinel){
-                temp = temp.next; // move forward until the last item
-            }
-            temp.next = new node(temp, x, sentinel);
+            sentinel.prev = new node(sentinel.prev, x, sentinel);
+            sentinel.prev.prev.next = sentinel.prev;
             size += 1;
         }
     }
@@ -93,12 +98,7 @@ public class LinkedListDeque<type> implements Deque<type>{
     }
 
     public boolean isEmpty(){
-        if (size == 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return (size == 0);
     }
 
     public int size(){
