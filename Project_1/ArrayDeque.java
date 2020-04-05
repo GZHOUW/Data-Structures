@@ -1,4 +1,4 @@
-public class ArrayDeque<type> {
+public class ArrayDeque<type> implements Deque<type>{
     private type[] items;
     private int size;
     private float usageRate;
@@ -6,11 +6,11 @@ public class ArrayDeque<type> {
     private int lastNext;
 
     public ArrayDeque(){
-        items = (type[]) new Object[8]; // initially all null
+        items = (type[]) new Object[8];
         size = 0;
         usageRate = 0;
         firstNext = 0; // one idx before the first element of the array
-        lastNext = 1;
+        lastNext = 1; // one idx after the last element of the array
 
     }
 
@@ -90,7 +90,7 @@ public class ArrayDeque<type> {
         }
     }
 
-    public void removeFirst(){
+    public type removeFirst(){
         // delete the first item and return it
         int firstItem;
         if (firstNext == items.length - 1){
@@ -99,15 +99,17 @@ public class ArrayDeque<type> {
         else{
             firstItem = firstNext + 1;
         }
+        type temp = items[firstItem];
         items[firstItem] = null; // delete the last item, save memory
         size -= 1;
         usageRate = (float) size / (float) items.length;
-        firstNext = firstItem;
+        lastNext = firstItem;
         resize();
+        return temp;
 
     }
     
-    public void removeLast(){
+    public type removeLast(){
         // delete the last item and return it
         int lastItem;
         if (lastNext == 0){
@@ -116,17 +118,26 @@ public class ArrayDeque<type> {
         else{
             lastItem = lastNext - 1;
         }
+        type temp = items[lastItem];
         items[lastItem] = null; // delete the last item, save memory
         size -= 1;
         usageRate = (float) size / (float) items.length;
         lastNext = lastItem;
         resize();
+        return temp;
     }
 
 
     public type get(int i){
-        // return the ith item in the list, where 0 is the firstNext one
-        return items[i];
+        // return the ith item in the list, NOT including Null
+        if (firstNext + i + 1 > items.length - 1){
+            // [4 5 null null 1 2 3] --> firstNext = 3 --> get(4) --> 3 + 4 + 1 - 7 = 1
+            return items[firstNext + i + 1 - items.length];
+        }
+        else{
+            // firstNext = 3 --> get(1) --> 3 + 1 + 1 = 5
+            return items[firstNext + i + 1];
+        }
     }
 
     public int size(){
@@ -135,25 +146,10 @@ public class ArrayDeque<type> {
 
 
     public void printDeque(){
-        for (int i = 0; i < items.length; i++){
+        for (int i = 0; i < size; i++){
             System.out.print(get(i));
             System.out.print(' ');
         }
         System.out.println();
-    }
-
-
-    public static void main(String[] args){
-        ArrayDeque A = new ArrayDeque();
-        A.addLast(2);
-        A.printDeque();
-        A.addLast(3);
-        A.printDeque();
-        A.removeFirst();
-        A.printDeque();
-        A.removeLast();
-        A.printDeque();
-        System.out.println(A.size());
-
     }
 }
