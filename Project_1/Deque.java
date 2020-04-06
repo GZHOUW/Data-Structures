@@ -4,6 +4,7 @@ public interface Deque<type> {
     // private void resize()   ----> Private methods should NOT be in interface
 
     // All the methods that BOTH LLDeque and ADeque have
+
     public boolean isEmpty();
 
     public void addFirst(type x);

@@ -32,17 +32,19 @@ public class LinkedListDeque<type> implements Deque<type>{
             addLast((type) other.get(i));
         }
     }
-
+    /*
     public static void main(String[] args){
         LinkedListDeque<Integer> A = new LinkedListDeque<Integer>();
         A.addFirst(3);
         A.addFirst(2);
         A.addFirst(1);
-        A.addLast(4);
-        A.removeLast();
+        A.addLast(200);
+        A.removeFirst();
         A.printDeque();
     }
 
+     */
+    @Override
     public void addFirst(type x){
         if (this.isEmpty()){
             sentinel.next = new node(sentinel, x, sentinel);
@@ -56,7 +58,7 @@ public class LinkedListDeque<type> implements Deque<type>{
             size += 1;
         }
     }
-
+    @Override
     public void addLast(type x){
         if (isEmpty()) {
             addFirst(x); // addFirst changes size, no need to add again
@@ -67,7 +69,24 @@ public class LinkedListDeque<type> implements Deque<type>{
             size += 1;
         }
     }
+    /*
+    public void insert(type x, int position){
+        if (isEmpty()) {
+            addFirst(x); // addFirst changes size, no need to add again
+        }
+        else{
+            node p = sentinel;
+            for (int i = 0; i < position; i++){
+                p = p.next;
+            }
+            
+        }
+    }
 
+     */
+
+
+    @Override
     public type removeFirst(){
         type temp = sentinel.next.item; // first item, to be removed
         sentinel.next.next.prev = sentinel; // set the prev of 2nd item as sentinel
@@ -75,7 +94,7 @@ public class LinkedListDeque<type> implements Deque<type>{
         size -= 1;
         return temp;
     }
-
+    @Override
     public type removeLast(){
         type temp = sentinel.prev.item;
         sentinel.prev.prev.next = sentinel;
@@ -83,7 +102,7 @@ public class LinkedListDeque<type> implements Deque<type>{
         size -= 1;
         return temp;
     }
-
+    @Override
     public type get(int index){
         if (isEmpty() || index >= size) {
             return null;
@@ -96,15 +115,15 @@ public class LinkedListDeque<type> implements Deque<type>{
             return temp.item;
         }
     }
-
+    @Override
     public boolean isEmpty(){
         return (size == 0);
     }
-
+    @Override
     public int size(){
         return size;
     }
-
+    @Override
     public void printDeque(){
         for (int i = 0; i < size; i++){
             System.out.print(get(i));

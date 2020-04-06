@@ -46,21 +46,51 @@ public class ArrayDeque<type> implements Deque<type>{
         if (size == items.length){ // expand size by factor 2
             int newSize = items.length * 2;
             type[] newArray = (type[]) new Object[newSize];
+
+            int first = getFirst();
+
+            int size1 = size - first;
             // parameters: old array, start pos, new array, start pos, num of items
-            System.arraycopy(items, 0, newArray, 1, size);
+            System.arraycopy(items, first, newArray, 0, size1);
+            System.arraycopy(items, 0, newArray, size1, size - size1);
+
             items = newArray; // discard the old list
 
-            firstNext = 0;
+            firstNext = items.length - 1;
             lastNext = size;
         }
 
     }
 
+    private int getFirst(){
+        int first;
+        if (firstNext == items.length - 1){
+            first = 0;
+        }
+        else{
+            first = firstNext + 1;
+        }
+        return first;
+    }
+
+    private int getLast(){
+        int last;
+        if (lastNext == 0){
+            last = items.length - 1;
+        }
+        else{
+            last = lastNext - 1;
+        }
+        return last;
+    }
+
+
+    @Override
     public boolean isEmpty(){
         return size == 0;
     }
 
-
+    @Override
     public void addFirst(type x){
         resize();
         items[firstNext] = x;
@@ -74,7 +104,7 @@ public class ArrayDeque<type> implements Deque<type>{
             firstNext -= 1;
         }
     }
-
+    @Override
     public void addLast(type x){
         // Insert x at the back of the list, or set list[size] = x
         resize();
@@ -90,44 +120,34 @@ public class ArrayDeque<type> implements Deque<type>{
         }
     }
 
+    @Override
     public type removeFirst(){
         // delete the first item and return it
-        int firstItem;
-        if (firstNext == items.length - 1){
-            firstItem = 0;
-        }
-        else{
-            firstItem = firstNext + 1;
-        }
-        type temp = items[firstItem];
-        items[firstItem] = null; // delete the last item, save memory
+        int first = getFirst();
+
+        type temp = items[first];
+        items[first] = null; // delete the last item, save memory
         size -= 1;
         usageRate = (float) size / (float) items.length;
-        lastNext = firstItem;
+        firstNext = first;
         resize();
         return temp;
-
     }
-    
+
+    @Override
     public type removeLast(){
         // delete the last item and return it
-        int lastItem;
-        if (lastNext == 0){
-            lastItem = items.length - 1;
-        }
-        else{
-            lastItem = lastNext - 1;
-        }
-        type temp = items[lastItem];
-        items[lastItem] = null; // delete the last item, save memory
+        int last = getLast();
+        type temp = items[last];
+        items[last] = null; // delete the last item, save memory
         size -= 1;
         usageRate = (float) size / (float) items.length;
-        lastNext = lastItem;
+        lastNext = last;
         resize();
         return temp;
     }
 
-
+    @Override
     public type get(int i){
         // return the ith item in the list, NOT including Null
         if (firstNext + i + 1 > items.length - 1){
@@ -139,12 +159,12 @@ public class ArrayDeque<type> implements Deque<type>{
             return items[firstNext + i + 1];
         }
     }
-
+    @Override
     public int size(){
         return size;
     }
 
-
+    @Override
     public void printDeque(){
         for (int i = 0; i < size; i++){
             System.out.print(get(i));

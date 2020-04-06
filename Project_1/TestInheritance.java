@@ -14,14 +14,20 @@ public class TestInheritance {
     }
 
     public static void main(String[] args){
-        ArrayDeque<String> L = new ArrayDeque<>();
-        L.addFirst("is");
-        L.addLast("mine");
-        L.addFirst("Frelford");
-        L.addLast("!");
-        L.removeLast();
+        ArrayDeque<Character> L = new ArrayDeque<>();
+        //LinkedListDeque<String> L = new LinkedListDeque<>();
+        L.addLast('p');
+        L.addLast('e');
+        L.addLast('r');
+        L.addLast('s');
+        L.addLast('i');
+        L.addLast('f');
+        L.addLast('l');
+        L.addLast('a');
+        L.addLast('g');
+        L.addLast('e');
+
         L.printDeque();
-        System.out.println(longest(L));
     }
 }
 
