@@ -14,20 +14,25 @@ public class TestInheritance {
     }
 
     public static void main(String[] args){
-        ArrayDeque<Character> L = new ArrayDeque<>();
-        //LinkedListDeque<String> L = new LinkedListDeque<>();
-        L.addLast('p');
+        LinkedListDeque<Character> L = new LinkedListDeque<Character>();
+        L.addLast('c');
+        L.addLast('l');
+        L.addLast('e');
+        L.addLast('a');
+        L.addLast('v');
         L.addLast('e');
         L.addLast('r');
-        L.addLast('s');
-        L.addLast('i');
-        L.addLast('f');
-        L.addLast('l');
-        L.addLast('a');
-        L.addLast('g');
-        L.addLast('e');
-
         L.printDeque();
+
+        Deque<Character> L2 = new LinkedListDeque<Character>();
+        L2.addLast('c');
+        L2.addLast('l');
+        L2.addLast('e');
+        L2.addLast('a');
+        L2.addLast('n');
+        L2.addLast('s');
+        L2.addLast('e');
+        L2.printDeque(); // will use the printDeque in LLDeque
     }
 }
 

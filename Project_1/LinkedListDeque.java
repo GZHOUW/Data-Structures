@@ -32,18 +32,7 @@ public class LinkedListDeque<type> implements Deque<type>{
             addLast((type) other.get(i));
         }
     }
-    /*
-    public static void main(String[] args){
-        LinkedListDeque<Integer> A = new LinkedListDeque<Integer>();
-        A.addFirst(3);
-        A.addFirst(2);
-        A.addFirst(1);
-        A.addLast(200);
-        A.removeFirst();
-        A.printDeque();
-    }
 
-     */
     @Override
     public void addFirst(type x){
         if (this.isEmpty()){
@@ -58,6 +47,7 @@ public class LinkedListDeque<type> implements Deque<type>{
             size += 1;
         }
     }
+
     @Override
     public void addLast(type x){
         if (isEmpty()) {
@@ -85,7 +75,6 @@ public class LinkedListDeque<type> implements Deque<type>{
 
      */
 
-
     @Override
     public type removeFirst(){
         type temp = sentinel.next.item; // first item, to be removed
@@ -94,6 +83,7 @@ public class LinkedListDeque<type> implements Deque<type>{
         size -= 1;
         return temp;
     }
+
     @Override
     public type removeLast(){
         type temp = sentinel.prev.item;
@@ -102,6 +92,7 @@ public class LinkedListDeque<type> implements Deque<type>{
         size -= 1;
         return temp;
     }
+
     @Override
     public type get(int index){
         if (isEmpty() || index >= size) {
@@ -119,17 +110,19 @@ public class LinkedListDeque<type> implements Deque<type>{
     public boolean isEmpty(){
         return (size == 0);
     }
+
     @Override
     public int size(){
         return size;
     }
+
+    // Add a print method that overrides the inefficient print() in Deque interface
     @Override
     public void printDeque(){
-        for (int i = 0; i < size; i++){
-            System.out.print(get(i));
-            System.out.print(' ');
+        System.out.println("This method overrides the printDeque() implemented in Deque interface.");
+        for (node p = sentinel.next; p.item != null; p = p.next){
+            System.out.print(p.item);
         }
         System.out.println();
     }
-
 }

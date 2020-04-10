@@ -5,6 +5,7 @@ public interface Deque<type> {
 
     // All the methods that BOTH LLDeque and ADeque have
 
+    // // Interface inheritance: only signature
     public boolean isEmpty();
 
     public void addFirst(type x);
@@ -19,6 +20,12 @@ public interface Deque<type> {
 
     public int size();
 
-    public void printDeque();
+    // Implementation inheritance: both signature and implementation
+    default public void printDeque(){
+        for (int i = 0; i < size(); i += 1){
+            System.out.print(get(i)); // get() is fast for Array but slow for LinkedList
+        }
+        System.out.println();
+    }
 
 }
